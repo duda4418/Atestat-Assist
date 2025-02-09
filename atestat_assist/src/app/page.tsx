@@ -1,11 +1,15 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
+
+const users = [
+    { username: 'user', password: 'password', role: 'user' },
+    { username: 'admin', password: 'adminpass', role: 'admin' }
+];
 
 const LoginPage = () => {
     const router = useRouter();
@@ -13,15 +17,22 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
 
+    useEffect(() => {
+        const loggedInUser = localStorage.getItem('loggedInUser');
+        if (loggedInUser) {
+            const user = JSON.parse(loggedInUser);
+            router.push(`/${user.role}`);
+        }
+    }, [router]);
+
     const handleLogin = (e: React.FormEvent) => {
         e.preventDefault();
-        
-        if (username === 'user' && password === 'user') {
-            router.push('/user');
-        } 
-        else if (username === 'admin' && password === 'admin') {
-            router.push('/admin');
-        } else { 
+        const user = users.find(u => u.username === username && u.password === password);
+
+        if (user) {
+            localStorage.setItem('loggedInUser', JSON.stringify(user));
+            router.push(`/${user.role}`);
+        } else {
             setError('Invalid username or password');
         }
     };
@@ -33,11 +44,7 @@ const LoginPage = () => {
                     <CardTitle className="text-center">Login</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    {error && (
-                        <Alert variant="destructive" className="mb-2">
-                            <AlertDescription>{error}</AlertDescription>
-                        </Alert>
-                    )}
+                    {error && <p className="text-red-500 text-sm mb-2">{error}</p>}
                     <form onSubmit={handleLogin} className="space-y-4">
                         <Input 
                             type="text" 
