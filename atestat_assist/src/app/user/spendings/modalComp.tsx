@@ -1,21 +1,26 @@
 import Image from "next/image";
 import Sidebar from "../SideBar";
 import { Button } from "@/components/ui/button";
+import { Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue, } from "@/components/ui/select";
 
-export default function ModalComp({editIndex, setEditIndex, newPerson, setNewPerson, tableData, setTableData, handleCloseModal} :any) {
+export default function ModalComp({editIndex, setEditIndex, newSpending, setNewSpending, tableData, setTableData, handleCloseModal} :any) {
 
     const handleSubmit = () => {
-        if (newPerson.name && newPerson.date && newPerson.money) {
+        if (newSpending.detail && newSpending.date && newSpending.importance && newSpending.money) {
           let updatedTableData = [...tableData];
           
           if (editIndex !== null) {
-            updatedTableData[editIndex] = newPerson;
+            updatedTableData[editIndex] = newSpending;
           } else {
-            updatedTableData.push(newPerson);
+            updatedTableData.push(newSpending);
           }
     
           setTableData(updatedTableData);
-          setNewPerson({ name: '', date: '', money: '' });
+          setNewSpending({ detail: '', date: '', importance:'', money: '' });
           handleCloseModal();
         } else {
           alert('Please fill in all fields.');
@@ -24,7 +29,7 @@ export default function ModalComp({editIndex, setEditIndex, newPerson, setNewPer
     
       const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
-        setNewPerson((prev:any) => ({
+        setNewSpending((prev:any) => ({
           ...prev,
           [name]: value,
         }));
@@ -35,11 +40,21 @@ export default function ModalComp({editIndex, setEditIndex, newPerson, setNewPer
           <div className="bg-white p-6 rounded-lg shadow-lg w-96">
             <h2 className="text-center text-xl mb-4">{editIndex !== null ? 'Edit Person' : 'Add New Person'}</h2>
             <div className="mb-4">
-              <label className="block text-sm font-semibold">Name</label>
+              <label className="block text-sm font-semibold">Detail</label>
               <input
                 type="text"
-                name="name"
-                value={newPerson.name}
+                name="detail"
+                value={newSpending.detail}
+                onChange={handleInputChange}
+                className="w-full p-2 border border-gray-300 rounded"
+              />
+            </div>
+            <div className="mb-4">
+              <label className="block text-sm font-semibold">Importance</label>
+              <input
+                type="text"
+                name="importance"
+                value={newSpending.importance}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
               />
@@ -49,7 +64,7 @@ export default function ModalComp({editIndex, setEditIndex, newPerson, setNewPer
               <input
                 type="text"
                 name="date"
-                value={newPerson.date}
+                value={newSpending.date}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
               />
@@ -59,7 +74,7 @@ export default function ModalComp({editIndex, setEditIndex, newPerson, setNewPer
               <input
                 type="text"
                 name="money"
-                value={newPerson.money}
+                value={newSpending.money}
                 onChange={handleInputChange}
                 className="w-full p-2 border border-gray-300 rounded"
               />

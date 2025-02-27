@@ -5,7 +5,6 @@ export default function Home() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-      <p>user page</p>
     </div>
   );
 }

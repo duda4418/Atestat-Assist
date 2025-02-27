@@ -1,12 +1,14 @@
 import Image from "next/image";
 import Sidebar from "../SideBar";
+import UserProfile from "./userProfile";
 
 export default function Home() {
   return (
     <div className="flex min-h-screen">
       <Sidebar />
-
-      <p>page2</p>
+      <div className="">
+        <UserProfile/>
+      </div>
     </div>
   );
 }

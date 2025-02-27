@@ -3,8 +3,8 @@ import Image from "next/image";
 
 import Sidebar from "../SideBar";
 import { useState } from 'react';
-import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"; // Importing Accordion components from Shadcn UI
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; // Importing Card components
+import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from "@/components/ui/accordion"; 
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; 
 import TableExample from "./tableComp";
 import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button";

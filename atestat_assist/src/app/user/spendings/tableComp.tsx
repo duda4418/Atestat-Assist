@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'; 
-import { Notebook, Edit, Trash } from 'lucide-react';
+import { Notebook, Edit, Trash, CirclePlus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import ModalComp from './modalComp';
 
@@ -11,15 +11,15 @@ const TableExample = () => {
   const loadTableData = () => {
     const storedData = localStorage.getItem('tableData');
     return storedData ? JSON.parse(storedData) : [
-      { name: 'John Doe', date: '2025-02-09', money: '$500' },
-      { name: 'Jane Smith', date: '2025-01-22', money: '$1200' },
-      { name: 'Samuel Green', date: '2024-12-15', money: '$700' },
+      { detail: 'John Doe', date: '2025-02-09', importance: "Urgent" ,money: '$500' },
+      { detail: 'John Doe', date: '2025-02-09', importance: "Urgent" ,money: '$500' },
+      { detail: 'John Doe', date: '2025-02-09', importance: "Urgent" ,money: '$500' },
     ];
   };
 
   const [tableData, setTableData] = useState(loadTableData());
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [newPerson, setNewPerson] = useState({ name: '', date: '', money: '' });
+  const [newSpending, setNewSpending] = useState({ detail: '', date: '', importance:'', money: '' });
   const [editIndex, setEditIndex] = useState<number | null>(null);
 
   useEffect(() => {
@@ -33,12 +33,12 @@ const TableExample = () => {
   const handleCloseModal = () => {
     setIsModalOpen(false);
     setEditIndex(null);
-    setNewPerson({ name: '', date: '', money: '' });
+    setNewSpending({ detail: '', date: '', importance:'', money: '' });
   };
 
   const handleEdit = (index: number) => {
     setEditIndex(index);
-    setNewPerson(tableData[index]);
+    setNewSpending(tableData[index]);
     setIsModalOpen(true);
   };
 
@@ -57,16 +57,18 @@ const TableExample = () => {
           <table className="min-w-full table-auto">
             <thead>
               <tr className="bg-gray-200">
-                <th className="px-4 py-2 text-left font-semibold">Name</th>
+                <th className="px-4 py-2 text-left font-semibold">Details</th>
                 <th className="px-4 py-2 text-left font-semibold">Date</th>
-                <th className="px-4 py-2 text-left font-semibold">Money</th>
+                <th className="px-4 py-2 text-left font-semibold">Suma</th>
+                <th className="px-4 py-2 text-left font-semibold">Importanta</th>
                 <th className="w-1 px-4 py-2 text-left font-semibold">Actions</th>
               </tr>
             </thead>
             <tbody>
               {tableData.map((item:any, index:any) => (
                 <tr key={index} className="border-b">
-                  <td className="px-4 py-2">{item.name}</td>
+                  <td className="px-4 py-2">{item.detail}</td>
+                  <td className="px-4 py-2">{item.importance}</td>
                   <td className="px-4 py-2">{item.date}</td>
                   <td className="px-4 py-2">{item.money}</td>
                   <td className=" px-4 py-2 flex space-x-2 ">
@@ -87,14 +89,13 @@ const TableExample = () => {
 
       <div className="flex justify-center items-center">
         <Button className="my-4" onClick={handleOpenModal}>
-          <Notebook className="mr-2" />
-          Add Person
+          <CirclePlus className="mr-2" />
+          Add Spending
         </Button>
       </div>
 
-      {/* Modal */}
       {isModalOpen && (
-        <ModalComp editIndex = {editIndex} setEditIndex = {setEditIndex} newPerson = {newPerson} setNewPerson={setNewPerson}
+        <ModalComp editIndex = {editIndex} setEditIndex = {setEditIndex} newSpending = {newSpending} setNewSpending={setNewSpending}
           tableData={tableData} setTableData={setTableData} handleCloseModal={handleCloseModal} />
       )}
     </div>
